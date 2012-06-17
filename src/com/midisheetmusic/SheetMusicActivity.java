@@ -12,10 +12,14 @@
 
 package com.midisheetmusic;
 
-import android.app.*;
 import android.os.*;
 import android.widget.*;
-//import android.content.*;
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /** @class SheetMusicActivity
  *
@@ -27,14 +31,15 @@ import android.widget.*;
  */
 public class SheetMusicActivity extends Activity {
 
-    //public static final String MidiDataID = "MidiDataID";
-    //public static final int settingsRequestCode = 1;
     
     private SheetMusic sheet;    /* The sheet music */
     private LinearLayout layout; /* THe layout */
     private MidiFile midifile;   /* The midi file to play */
     private MidiOptions options; /* The options for sheet music and sound */
 
+    private Resources resources;
+    Context context;
+    
      /** Create this SheetMusicActivity.  The Intent should have two parameters:
       * - MidiTitleID: The title of the song (String)
       * - MidiDataID: The raw byte[] data of the midi file.
@@ -46,17 +51,21 @@ public class SheetMusicActivity extends Activity {
         ClefSymbol.LoadImages(this);
         TimeSigSymbol.LoadImages(this);
 
-        byte[] data = file.getData();
-        //try {
-            midifile = new MidiFile(data);
-        //}
-        //catch (MidiFileException e) {
-        //    this.finish();
-        //    return;
-        //}
+        resources = context.getResources();
+        InputStream iS;
+        String fileName = "waltz";
+        int rID = resources.getIdentifier("com.midisheetmusic:raw/"+fileName, null, null);
+        iS = resources.openRawResource(rID);
+        
+        byte[] data = null;
+        try {
+			iS.read(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        midifile = new MidiFile(data);
         options = new MidiOptions(midifile);
-        //SharedPreferences settings = getPreferences(0);
-        //options.scrollVert = settings.getBoolean("scrollVert", false);
         createSheetMusic(options);
     }
     
