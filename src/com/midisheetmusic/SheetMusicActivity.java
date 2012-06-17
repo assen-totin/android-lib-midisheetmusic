@@ -12,17 +12,10 @@
 
 package com.midisheetmusic;
 
-import java.io.*;
-import java.net.*;
 import android.app.*;
 import android.os.*;
-import android.util.*;
 import android.widget.*;
-import android.view.*;
-import android.graphics.*;
 import android.content.*;
-import android.content.res.*;
-import android.media.*;
 
 /** @class SheetMusicActivity
  *

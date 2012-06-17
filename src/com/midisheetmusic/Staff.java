@@ -14,7 +14,6 @@ package com.midisheetmusic;
 
 import java.util.*;
 import android.graphics.*;
-import android.util.*;
 
 
 /* @class Staff
@@ -36,7 +35,6 @@ import android.util.*;
 
 public class Staff {
     private ArrayList<MusicSymbol> symbols;  /** The music symbols in this staff */
-    //private ArrayList<LyricSymbol> lyrics;   /** The lyrics to display (can be null) */
     private int ytop;                   /** The y pixel of the top of the staff */
     private ClefSymbol clefsym;         /** The left-side Clef symbol */
     private AccidSymbol[] keys;         /** The key signature symbols */
@@ -212,59 +210,6 @@ public class Staff {
         }
     }
 
-
-    /** Add the lyric symbols that occur within this staff.
-     *  Set the x-position of the lyric symbol.
-     */
-/*
-    public void AddLyrics(ArrayList<LyricSymbol> tracklyrics) {
-        if (tracklyrics == null || tracklyrics.size() == 0) {
-            return;
-        }
-        lyrics = new ArrayList<LyricSymbol>();
-        int xpos = 0;
-        int symbolindex = 0;
-        for (LyricSymbol lyric : tracklyrics) {
-            if (lyric.getStartTime() < starttime) {
-                continue;
-            }
-            if (lyric.getStartTime() > endtime) {
-                break;
-            }
-            // Get the x-position of this lyric
-            while (symbolindex < symbols.size() &&
-                   symbols.get(symbolindex).getStartTime() < lyric.getStartTime()) {
-                xpos += symbols.get(symbolindex).getWidth();
-                symbolindex++;
-            }
-            lyric.setX(xpos);
-            if (symbolindex < symbols.size() &&
-                (symbols.get(symbolindex) instanceof BarSymbol)) {
-                lyric.setX(lyric.getX() + SheetMusic.NoteWidth);
-            }
-            lyrics.add(lyric);
-        }
-        if (lyrics.size() == 0) {
-            lyrics = null;
-        }
-    }
-*/
-    /** Draw the lyrics */
-/*
-    private void DrawLyrics(Canvas canvas, Paint paint) {
-        // Skip the left side Clef symbol and key signature
-        int xpos = keysigWidth;
-        int ypos = height - SheetMusic.NoteHeight * 3/2;
-
-        for (LyricSymbol lyric : lyrics) {
-            canvas.drawText(lyric.getText(),
-                            xpos + lyric.getX(),
-                            ypos,
-                            paint);
-        }
-    }
-
-*/
     /** Draw the measure numbers for each measure */
     private void DrawMeasureNumbers(Canvas canvas, Paint paint) {
         /* Skip the left side Clef symbol and key signature */
@@ -364,10 +309,6 @@ public class Staff {
         if (showMeasures) {
             DrawMeasureNumbers(canvas, paint);
         }
-        //if (lyrics != null) {
-        //    DrawLyrics(canvas, paint);
-        //}
-
     }
 
 
@@ -486,9 +427,6 @@ public class Staff {
                 if (showMeasures) {
                     DrawMeasureNumbers(canvas, paint);
                 }
-                //if (lyrics != null) {
-                //    DrawLyrics(canvas, paint);
-                //}
             }
             if (curr instanceof ChordSymbol) {
                 ChordSymbol chord = (ChordSymbol) curr;
@@ -521,5 +459,4 @@ public class Staff {
     }
 
 }
-
 

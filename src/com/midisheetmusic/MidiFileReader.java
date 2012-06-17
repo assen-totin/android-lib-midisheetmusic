@@ -14,8 +14,6 @@
 package com.midisheetmusic;
 
 import java.io.*;
-import android.util.*;
-
 
 
 /** @class MidiFileReader

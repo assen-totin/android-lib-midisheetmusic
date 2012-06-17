@@ -15,7 +15,6 @@ package com.midisheetmusic;
 
 import java.io.*;
 import java.util.*;
-import android.util.*;
 
 /** @class Pair - A pair of ints */
 class PairInt {
@@ -367,6 +366,7 @@ public class MidiFile {
     /* End Instruments */
 
     /** Return a String representation of a Midi event */
+    /*
     private String EventName(int ev) {
         if (ev >= EventNoteOff && ev < EventNoteOff + 16)
             return "NoteOff";
@@ -389,8 +389,10 @@ public class MidiFile {
         else
             return "Unknown";
     }
-
+*/
+    
     /** Return a String representation of a meta-event */
+    /*
     private String MetaName(int ev) {
         if (ev == MetaEventSequence)
             return "MetaEventSequence";
@@ -419,7 +421,7 @@ public class MidiFile {
         else
             return "Unknown";
     }
-
+*/
 
     /** Get the list of tracks */
     public ArrayList<MidiTrack> getTracks() { return tracks; }
@@ -541,10 +543,11 @@ public class MidiFile {
             // If the midi file is truncated here, we can still recover.
             // Just return what we've parsed so far.
 
-            int startoffset, deltatime;
+            //int startoffset;
+            int deltatime;
             byte peekevent;
             try {
-                startoffset = file.GetOffset();
+                //startoffset = file.GetOffset();
                 deltatime = file.ReadVarlen();
                 starttime += deltatime;
                 peekevent = file.Peek();

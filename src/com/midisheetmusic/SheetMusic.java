@@ -13,17 +13,11 @@
 package com.midisheetmusic;
 
 import java.util.*;
-import java.io.*;
 import android.app.*;
 import android.content.*;
-import android.content.res.*;
 import android.graphics.*;
-import android.graphics.drawable.*;
-import android.util.*;
 import android.os.*;
 import android.view.*;
-import android.widget.*;
-import android.view.View.MeasureSpec;
 import android.view.animation.AnimationUtils;
 
 /** @class BoxedInt **/
@@ -1115,10 +1109,10 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     {
         int leftmargin = 20;
         int topmargin = 20;
-        int rightmargin = 20;
-        int bottommargin = 20;
+        //int rightmargin = 20;
+        //int bottommargin = 20;
 
-        float scale = 1.0f;
+        //float scale = 1.0f;
         Rect clip = new Rect(0, 0, PageWidth + 40, PageHeight + 40);
 
         paint.setAntiAlias(true);
