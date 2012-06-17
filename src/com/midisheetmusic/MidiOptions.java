@@ -23,7 +23,11 @@ import java.io.*;
  */
 public class MidiOptions implements Serializable {
 
-    // The possible values for showNoteLetters
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3308143851953966352L;
+	// The possible values for showNoteLetters
     public static final int NoteNameNone           = 0;
     public static final int NoteNameLetter         = 1;
     public static final int NoteNameFixedDoReMi    = 2;

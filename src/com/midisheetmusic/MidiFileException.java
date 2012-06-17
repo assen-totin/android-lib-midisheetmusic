@@ -22,7 +22,12 @@ package com.midisheetmusic;
  * and a string describing the error.
  */
 public class MidiFileException extends RuntimeException {
-    public MidiFileException(String s, int offset) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5022600459749278447L;
+
+	public MidiFileException(String s, int offset) {
         super(s + " at offset " + offset);
     }
 }

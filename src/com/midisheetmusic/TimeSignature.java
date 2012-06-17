@@ -27,7 +27,11 @@ import java.io.*;
  */
 
 public class TimeSignature implements Serializable {
-    private int numerator;      /** Numerator of the time signature */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2023231718954668924L;
+	private int numerator;      /** Numerator of the time signature */
     private int denominator;    /** Denominator of the time signature */
     private int quarternote;    /** Number of pulses per quarter note */
     private int measure;        /** Number of pulses per measure */
