@@ -51,7 +51,7 @@ public class MidiSheetMusicActivity extends Activity {
     private void loadImages() {
         ClefSymbol.LoadImages(this);
         TimeSigSymbol.LoadImages(this);
-        MidiPlayer.LoadImages(this);
+        //MidiPlayer.LoadImages(this);
     }
 
     /** Always use landscape mode for this activity. */

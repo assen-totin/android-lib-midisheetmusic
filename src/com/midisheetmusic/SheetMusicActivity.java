@@ -38,8 +38,8 @@ public class SheetMusicActivity extends Activity {
     public static final String MidiTitleID = "MidiTitleID";
     public static final int settingsRequestCode = 1;
     
-    private MidiPlayer player;   /* The play/stop/rewind toolbar */
-    private Piano piano;         /* The piano at the top */
+    //private MidiPlayer player;   /* The play/stop/rewind toolbar */
+    //private Piano piano;         /* The piano at the top */
     private SheetMusic sheet;    /* The sheet music */
     private LinearLayout layout; /* THe layout */
     private MidiFile midifile;   /* The midi file to play */
@@ -55,7 +55,7 @@ public class SheetMusicActivity extends Activity {
 
         ClefSymbol.LoadImages(this);
         TimeSigSymbol.LoadImages(this);
-        MidiPlayer.LoadImages(this);
+        //MidiPlayer.LoadImages(this);
 
         byte[] data = this.getIntent().getByteArrayExtra(MidiDataID);
         String title = this.getIntent().getStringExtra(MidiTitleID);
@@ -78,12 +78,12 @@ public class SheetMusicActivity extends Activity {
     void createView() {
         layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        player = new MidiPlayer(this);
-        piano = new Piano(this);
-        layout.addView(player);
-        layout.addView(piano);
+        //player = new MidiPlayer(this);
+        //piano = new Piano(this);
+        //layout.addView(player);
+        //layout.addView(piano);
         setContentView(layout);
-        player.SetPiano(piano);
+        //player.SetPiano(piano);
         layout.requestLayout();
     }
 
@@ -94,17 +94,17 @@ public class SheetMusicActivity extends Activity {
             layout.removeView(sheet);
         }
         if (!options.showPiano) {
-            piano.setVisibility(View.GONE);
+            //piano.setVisibility(View.GONE);
         }
         else {
-            piano.setVisibility(View.VISIBLE);
+            //piano.setVisibility(View.VISIBLE);
         }
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
-        sheet.setPlayer(player);
+        //sheet.setPlayer(player);
         layout.addView(sheet);
-        piano.SetMidiFile(midifile, options, player);
-        player.SetMidiFile(midifile, options, sheet);
+        //piano.SetMidiFile(midifile, options, player);
+        //player.SetMidiFile(midifile, options, sheet);
         layout.requestLayout();
         sheet.callOnDraw();
     }
@@ -119,9 +119,9 @@ public class SheetMusicActivity extends Activity {
     /** When the menu button is pressed, initialize the menus. */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (player != null) {
-            player.Pause();
-        }
+        //if (player != null) {
+        //    player.Pause();
+        //}
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.sheet_menu, menu);
         return true;
@@ -276,8 +276,8 @@ public class SheetMusicActivity extends Activity {
     protected void onResume() {
         super.onResume();
         layout.requestLayout();
-        player.invalidate();
-        piano.invalidate();
+        //player.invalidate();
+        //piano.invalidate();
         if (sheet != null) {
             sheet.invalidate();
         }
@@ -287,9 +287,9 @@ public class SheetMusicActivity extends Activity {
     /** When this activity pauses, stop the music */
     @Override
     protected void onPause() {
-        if (player != null) {
-            player.Pause();
-        }
+        //if (player != null) {
+        //    player.Pause();
+        //}
         super.onPause();
     } 
 }

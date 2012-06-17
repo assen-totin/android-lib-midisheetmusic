@@ -78,7 +78,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     private boolean  surfaceReady;    /** True if we can draw on the surface */
     private Bitmap   bufferBitmap;    /** The bitmap for drawing */
     private Canvas   bufferCanvas;    /** The canvas for drawing */
-    private MidiPlayer player;        /** For pausing the music */
+    //private MidiPlayer player;        /** For pausing the music */
     private int      playerHeight;    /** Height of the midi player */
     private int      screenwidth;     /** The screen width */
     private int      screenheight;    /** The screen height */
@@ -110,7 +110,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         Activity activity = (Activity)context;
         screenwidth = activity.getWindowManager().getDefaultDisplay().getWidth();
         screenheight = activity.getWindowManager().getDefaultDisplay().getHeight();
-        playerHeight = MidiPlayer.getPreferredSize(screenwidth, screenheight).y;
+        //playerHeight = MidiPlayer.getPreferredSize(screenwidth, screenheight).y;
         scrollTimer = new Handler();
     }
 
@@ -1365,11 +1365,11 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_DOWN:
                 deltaX = deltaY = 0;
                 scrollTimer.removeCallbacks(flingScroll);
-                if (player != null && player.getVisibility() == View.GONE) {
-                    player.Pause();
-                    inMotion = false;
-                    return true;
-                }
+                //if (player != null && player.getVisibility() == View.GONE) {
+                //    player.Pause();
+                //    inMotion = false;
+                //    return true;
+                //}
                 inMotion = true;
                 startMotionX = (int)event.getX();
                 startMotionY = (int)event.getY();
@@ -1457,9 +1457,9 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
       }
     };
 
-    public void setPlayer(MidiPlayer p) {
-        player = p;
-    }
+    //public void setPlayer(MidiPlayer p) {
+    //    player = p;
+    //}
     
     public void
     surfaceChanged(SurfaceHolder holder, int format, int width, int height) {

@@ -208,17 +208,14 @@ public class ChooseSongActivity extends ListActivity implements TextWatcher {
     /** As text is entered in the filter box, filter the list of
      *  midi songs to display.
      */
-    @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         adapter.getFilter().filter(s);
     }
 
-    @Override
     public void afterTextChanged(Editable s) {
     }
 
    
-    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
