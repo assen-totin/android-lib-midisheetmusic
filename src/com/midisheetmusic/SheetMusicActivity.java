@@ -145,9 +145,9 @@ public class SheetMusicActivity extends Activity {
           case R.id.save_images:
             showSaveImagesDialog();
             return true;
-          case R.id.help:
-            showHelp();
-            return true;
+//          case R.id.help:
+//            showHelp();
+//            return true;
           default:
             return super.onOptionsItemSelected(item);
         }
@@ -240,11 +240,12 @@ public class SheetMusicActivity extends Activity {
 
 
     /** Show the HTML help screen. */
+    /*
     private void showHelp() {
         Intent intent = new Intent(this, HelpActivity.class);
         startActivity(intent);
     }
-
+*/
     /** This is the callback when the SettingsActivity is finished.
      *  Get the modified MidiOptions (passed as a parameter in the Intent).
      *  Re-create the SheetMusic View with the new options.
