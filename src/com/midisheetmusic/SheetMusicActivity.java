@@ -15,7 +15,7 @@ package com.midisheetmusic;
 import android.app.*;
 import android.os.*;
 import android.widget.*;
-import android.content.*;
+//import android.content.*;
 
 /** @class SheetMusicActivity
  *
@@ -27,8 +27,8 @@ import android.content.*;
  */
 public class SheetMusicActivity extends Activity {
 
-    public static final String MidiDataID = "MidiDataID";
-    public static final int settingsRequestCode = 1;
+    //public static final String MidiDataID = "MidiDataID";
+    //public static final int settingsRequestCode = 1;
     
     private SheetMusic sheet;    /* The sheet music */
     private LinearLayout layout; /* THe layout */
@@ -46,30 +46,32 @@ public class SheetMusicActivity extends Activity {
         ClefSymbol.LoadImages(this);
         TimeSigSymbol.LoadImages(this);
 
-        byte[] data = this.getIntent().getByteArrayExtra(MidiDataID);
-        try {
+        byte[] data = file.getData();
+        //try {
             midifile = new MidiFile(data);
-        }
-        catch (MidiFileException e) {
-            this.finish();
-            return;
-        }
+        //}
+        //catch (MidiFileException e) {
+        //    this.finish();
+        //    return;
+        //}
         options = new MidiOptions(midifile);
-        SharedPreferences settings = getPreferences(0);
-        options.scrollVert = settings.getBoolean("scrollVert", false);
+        //SharedPreferences settings = getPreferences(0);
+        //options.scrollVert = settings.getBoolean("scrollVert", false);
         createSheetMusic(options);
     }
     
     /** Create the SheetMusic view with the given options */
     private void 
     createSheetMusic(MidiOptions options) {
-        if (sheet != null) {
-            layout.removeView(sheet);
-        }
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
-        layout.addView(sheet);
+    	
+    	layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(sheet);       
+        setContentView(layout);
         layout.requestLayout();
+
         sheet.callOnDraw();
     }
 
