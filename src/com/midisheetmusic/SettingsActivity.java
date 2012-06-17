@@ -90,8 +90,8 @@ public class SettingsActivity extends PreferenceActivity
         root.addPreference(sheetTitle);
 
         createScrollPrefs(root);
-        createShowPianoPrefs(root);
-        createShowLyricsPrefs(root);
+        //createShowPianoPrefs(root);
+        //createShowLyricsPrefs(root);
         if (options.tracks.length != 2) {
             createTwoStaffsPrefs(root);
         }
@@ -175,20 +175,23 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     /** Create the "Show Piano" preference */
+    /*
     private void createShowPianoPrefs(PreferenceScreen root) {
         showPiano = new CheckBoxPreference(this);
         showPiano.setTitle(R.string.show_piano);
         showPiano.setChecked(options.showPiano);
         root.addPreference(showPiano);
     }
-
+*/
     /** Create the "Show Lyrics" preference */
+    /*
     private void createShowLyricsPrefs(PreferenceScreen root) {
         showLyrics = new CheckBoxPreference(this);
         showLyrics.setTitle(R.string.show_lyrics);
         showLyrics.setChecked(options.showLyrics);
         root.addPreference(showLyrics);
     }
+    */
 
     /** Create the "Show Note Letters" preference */
     private void createShowLetterPrefs(PreferenceScreen root) {
@@ -340,8 +343,8 @@ public class SettingsActivity extends PreferenceActivity
             options.instruments[i] = entry.findIndexOfValue(entry.getValue());
         }
         options.scrollVert = scrollVertically.isChecked();
-        options.showPiano = showPiano.isChecked();
-        options.showLyrics = showLyrics.isChecked();
+        //options.showPiano = showPiano.isChecked();
+        //options.showLyrics = showLyrics.isChecked();
         if (twoStaffs != null)
             options.twoStaffs = twoStaffs.isChecked();
         else

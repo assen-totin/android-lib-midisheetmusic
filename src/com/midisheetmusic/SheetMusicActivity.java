@@ -93,12 +93,14 @@ public class SheetMusicActivity extends Activity {
         if (sheet != null) {
             layout.removeView(sheet);
         }
+        /*
         if (!options.showPiano) {
             //piano.setVisibility(View.GONE);
         }
         else {
             //piano.setVisibility(View.VISIBLE);
         }
+        */
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
         //sheet.setPlayer(player);

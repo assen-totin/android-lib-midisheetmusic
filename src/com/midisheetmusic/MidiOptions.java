@@ -31,7 +31,7 @@ public class MidiOptions implements Serializable {
     public static final int NoteNameFixedNumber    = 4;
     public static final int NoteNameMovableNumber  = 5;
 
-    public boolean showPiano;        /** Display the piano */
+    //public boolean showPiano;        /** Display the piano */
     public boolean[] tracks;         /** Which tracks to display (true = display) */
     public int[] instruments;        /** Which instruments to use per track */
     public boolean useDefaultInstruments; /** If true, don't change instruments */
@@ -39,7 +39,7 @@ public class MidiOptions implements Serializable {
     public boolean largeNoteSize;    /** Display large or small note sizes */
     public boolean twoStaffs;        /** Combine tracks into two staffs ? */
     public int showNoteLetters;      /** Show the letters (A, A#, etc) next to the notes */
-    public boolean showLyrics;       /** Show the lyrics under each note */
+    //public boolean showLyrics;       /** Show the lyrics under each note */
     public boolean showMeasures;     /** Show the measure numbers for each staff */
     public int shifttime;            /** Shift note starttimes by the given amount */
     public int transpose;            /** Shift note key up/down by given amount */
@@ -59,7 +59,7 @@ public class MidiOptions implements Serializable {
     public int     lastMeasure;             /** The last measure in the song */
 
     public MidiOptions(MidiFile midifile) {
-        showPiano = true;
+        //showPiano = true;
         int num_tracks = midifile.getTracks().size();
         tracks = new boolean[num_tracks];
         mute = new boolean[num_tracks];
@@ -85,7 +85,7 @@ public class MidiOptions implements Serializable {
         }
         showNoteLetters = NoteNameNone;
         showMeasures = false;
-        showLyrics = true;
+        //showLyrics = true;
         shifttime = 0;
         transpose = 0;
         time = null;
