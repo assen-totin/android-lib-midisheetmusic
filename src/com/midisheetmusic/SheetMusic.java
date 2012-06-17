@@ -172,20 +172,20 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
             allsymbols.add(CreateSymbols(chords, clefs, time, lastStart));
         }
 
-        ArrayList<ArrayList<LyricSymbol>> lyrics = null;
-        if (options.showLyrics) {
-            lyrics = GetLyrics(tracks);
-        }
+        //ArrayList<ArrayList<LyricSymbol>> lyrics = null;
+        //if (options.showLyrics) {
+        //    lyrics = GetLyrics(tracks);
+        //}
 
         /* Vertically align the music symbols */
-        SymbolWidths widths = new SymbolWidths(allsymbols, lyrics);
+        SymbolWidths widths = new SymbolWidths(allsymbols);
         AlignSymbols(allsymbols, widths);
 
         staffs = CreateStaffs(allsymbols, mainkey, options, time.getMeasure());
         CreateAllBeamedChords(allsymbols, time);
-        if (lyrics != null) {
-            AddLyricsToStaffs(staffs, lyrics);
-        }
+        //if (lyrics != null) {
+        //    AddLyricsToStaffs(staffs, lyrics);
+        //}
 
         /* After making chord pairs, the stem directions can change,
          * which affects the staff height.  Re-calculate the staff height.
@@ -882,6 +882,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     public KeySignature getMainKey() { return mainkey; }
 
     /** Get the lyrics for each track */
+    /*
     private static ArrayList<ArrayList<LyricSymbol>> 
     GetLyrics(ArrayList<MidiTrack> tracks) {
        boolean hasLyrics = false;
@@ -910,8 +911,9 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
             return result;
         }
     }
-
+*/
     /** Add the lyric symbols to the corresponding staffs */
+/*
     static void
     AddLyricsToStaffs(ArrayList<Staff> staffs, ArrayList<ArrayList<LyricSymbol>> tracklyrics) {
         for (Staff staff : staffs) {
@@ -919,7 +921,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
             staff.AddLyrics(lyrics);
         }
     }
-
+*/
 
 
     /** Create a bitmap/canvas to use for double-buffered drawing.

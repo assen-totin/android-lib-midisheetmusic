@@ -43,7 +43,7 @@ public class SymbolWidths {
     /** Initialize the symbol width maps, given all the symbols in
      * all the tracks.
      */
-    public SymbolWidths(ArrayList<ArrayList<MusicSymbol>> tracks, ArrayList<ArrayList<LyricSymbol>> tracklyrics) {
+    public SymbolWidths(ArrayList<ArrayList<MusicSymbol>> tracks) {
 
         /* Get the symbol widths for all the tracks */
         widths = new DictInt[ tracks.size() ];
@@ -64,6 +64,7 @@ public class SymbolWidths {
             }
         }
 
+/*
         if (tracklyrics != null) {
             for (ArrayList<LyricSymbol> lyrics : tracklyrics) {
                 if (lyrics == null) {
@@ -80,7 +81,7 @@ public class SymbolWidths {
                 }
             }
         }
-
+*/
         /* Store all the start times to the starttime array */
         starttimes = new int[ maxwidths.count() ];
         for (int i = 0; i < maxwidths.count(); i++) {
