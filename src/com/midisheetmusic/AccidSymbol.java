@@ -10,12 +10,9 @@
  *  GNU General Public License for more details.
  */
 
-
 package com.midisheetmusic;
 
-
 import android.graphics.*;
-
 
 /** @class AccidSymbol
  * An accidental (accid) symbol represents a sharp, flat, or natural

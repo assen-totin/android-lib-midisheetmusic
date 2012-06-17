@@ -35,17 +35,17 @@ public class MidiSheetMusicActivity extends Activity {
         button.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        chooseSong();
+//                        chooseSong();
                     }
                 }
         );
     }
 
     /** Start the ChooseSongActivity when the "Choose Song" button is clicked */
-    private void chooseSong() {
-        Intent intent = new Intent(this, ChooseSongActivity.class);
-        startActivity(intent);
-    }
+//    private void chooseSong() {
+//        Intent intent = new Intent(this, ChooseSongActivity.class);
+//        startActivity(intent);
+//    }
 
     /** Load all the resource images */
     private void loadImages() {
