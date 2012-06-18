@@ -18,7 +18,6 @@ import android.content.*;
 import android.graphics.*;
 import android.os.*;
 import android.view.*;
-import android.view.animation.AnimationUtils;
 
 /** @class BoxedInt **/
 class BoxedInt {
@@ -87,12 +86,8 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     private int      bufferY; 
     private int      scrollX;         /** The (left,top) of the scroll clip */
     private int      scrollY;
-    private int      startMotionX;    /** The x pixel when a touch motion starts */
-    private int      startMotionY;    /** The y pixel when a touch motion starts */
     private float    deltaX;          /** The change in x-pixel of the last motion */
     private float    deltaY;          /** The change in y-pixel of the last motion */
-    private boolean  inMotion;        /** True if we're in a motion event */
-    private long     lastMotionTime;  /** Time of the last motion event (millsec) */      
     private Handler  scrollTimer;     /** Timer for doing 'fling' scrolling */
 
     public SheetMusic(Context context) {
