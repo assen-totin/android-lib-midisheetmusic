@@ -1360,6 +1360,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         switch (action) {
         
             case MotionEvent.ACTION_DOWN:
+            	/*
                 deltaX = deltaY = 0;
                 scrollTimer.removeCallbacks(flingScroll);
                 //if (player != null && player.getVisibility() == View.GONE) {
@@ -1370,9 +1371,11 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                 inMotion = true;
                 startMotionX = (int)event.getX();
                 startMotionY = (int)event.getY();
+                */
                 return true;
         
             case MotionEvent.ACTION_MOVE:
+            	/*
                 if (!inMotion)
                     return false;
 
@@ -1394,9 +1397,11 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                 checkScrollBounds();
                 lastMotionTime = AnimationUtils.currentAnimationTimeMillis();
                 callOnDraw();
+                */
                 return true;
             
             case MotionEvent.ACTION_UP:
+            	/*
                 inMotion = false;
                 long deltaTime = AnimationUtils.currentAnimationTimeMillis() - lastMotionTime;
                 if (deltaTime >= 100) {
@@ -1427,6 +1432,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                 for (int i = 1; i <= duration; i++) {
                     scrollTimer.postDelayed(flingScroll, i * msecInterval);
                 }
+                */
                 return true;
                 
             default:
