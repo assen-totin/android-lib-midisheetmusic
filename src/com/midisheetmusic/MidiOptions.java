@@ -76,13 +76,16 @@ public class MidiOptions implements Serializable {
             instruments[i] = midifile.getTracks().get(i).getInstrument();
         }
         scrollVert = false;
-        largeNoteSize = true;
+        //largeNoteSize = true;
+        largeNoteSize = false;
+        
         if (tracks.length != 2) {
             twoStaffs = true;
         }
         else {
             twoStaffs = false;
         }
+        
         showNoteLetters = NoteNameNone;
         showMeasures = false;
         shifttime = 0;

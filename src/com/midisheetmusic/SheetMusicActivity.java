@@ -82,7 +82,7 @@ public class SheetMusicActivity extends Activity {
         sheet.init(midifile, options);
     	
     	layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
+        //layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(sheet);       
         setContentView(layout);
         layout.requestLayout();
