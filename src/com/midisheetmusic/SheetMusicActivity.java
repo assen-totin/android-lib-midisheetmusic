@@ -51,19 +51,25 @@ public class SheetMusicActivity extends Activity {
         ClefSymbol.LoadImages(this);
         TimeSigSymbol.LoadImages(this);
 
-        resources = context.getResources();
-        InputStream iS;
+        resources = this.getResources();
+        InputStream iS = null;
         String fileName = "waltz";
         int rID = resources.getIdentifier("com.midisheetmusic:raw/"+fileName, null, null);
-        iS = resources.openRawResource(rID);
+        try {
+        	iS = resources.openRawResource(rID);
+        } catch (android.content.res.Resources.NotFoundException e) {
+			e.printStackTrace();
+			finish();
+		}
         
         byte[] data = null;
         try {
-			iS.read(data);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+        data = new byte[iS.available()];
+        iS.read(data);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        		
         midifile = new MidiFile(data);
         options = new MidiOptions(midifile);
         createSheetMusic(options);
@@ -85,4 +91,3 @@ public class SheetMusicActivity extends Activity {
     }
 
 }
-
