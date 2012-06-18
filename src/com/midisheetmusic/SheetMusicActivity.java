@@ -88,6 +88,7 @@ public class SheetMusicActivity extends Activity {
         layout.requestLayout();
 
         sheet.callOnDraw();
+        sheet.keepRunning();
     }
 
 }

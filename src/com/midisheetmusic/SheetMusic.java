@@ -1358,6 +1358,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction() & MotionEvent.ACTION_MASK;
         switch (action) {
+        
             case MotionEvent.ACTION_DOWN:
                 deltaX = deltaY = 0;
                 scrollTimer.removeCallbacks(flingScroll);
@@ -1370,6 +1371,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                 startMotionX = (int)event.getX();
                 startMotionY = (int)event.getY();
                 return true;
+        
             case MotionEvent.ACTION_MOVE:
                 if (!inMotion)
                     return false;
@@ -1393,7 +1395,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                 lastMotionTime = AnimationUtils.currentAnimationTimeMillis();
                 callOnDraw();
                 return true;
-
+            
             case MotionEvent.ACTION_UP:
                 inMotion = false;
                 long deltaTime = AnimationUtils.currentAnimationTimeMillis() - lastMotionTime;
@@ -1407,25 +1409,26 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                     return true;
                 }
 
-                /* Keep scrolling for 2 more seconds.
-                 * Scale the delta to 20 msec.
-                 * Make sure delta doesn't exceed the maximum scroll delta.
-                 */
+                // Keep scrolling for 2 more seconds.
+                // Scale the delta to 20 msec.
+                // Make sure delta doesn't exceed the maximum scroll delta.
                 int msecInterval = 20;
                 deltaX = deltaX * msecInterval/deltaTime;
                 deltaY = deltaY * msecInterval/deltaTime;
-                int maxscroll = StaffHeight * 4;
-                if (Math.abs(deltaX) > maxscroll) {
+                int maxscrollY = StaffHeight * 4;
+                int maxscrollX = StaffHeight * 40;
+                if (Math.abs(deltaX) > maxscrollX) {
                     deltaX = deltaX/Math.abs(deltaX) * StaffHeight;
                 }
-                if (Math.abs(deltaY) > maxscroll) {
+                if (Math.abs(deltaY) > maxscrollY) {
                     deltaY = deltaY/Math.abs(deltaY) * StaffHeight;
                 }
-                int duration = 2000 / msecInterval;
+                int duration = 10000 / msecInterval;
                 for (int i = 1; i <= duration; i++) {
                     scrollTimer.postDelayed(flingScroll, i * msecInterval);
                 }
                 return true;
+                
             default:
                 return false;
         }
@@ -1453,6 +1456,31 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
       }
     };
 
+    public void keepRunning() {
+		deltaX = 10;
+        scrollX += (int)deltaX;
+        checkScrollBounds();
+        callOnDraw();
+
+        int msecInterval = 20;
+		int songDuration = 60000;	// msec
+		int duration = songDuration / msecInterval;
+                                    
+        for (int i = 1; i <= duration; i++) {
+            scrollTimer.postDelayed(flingScrollH, i * msecInterval);
+        }    	
+    }
+    
+    Runnable flingScrollH = new Runnable() {
+        public void run() {
+        	scrollX += (int)deltaX;
+            checkScrollBounds();
+            callOnDraw();
+          
+        }
+    };
+    
+    
     //public void setPlayer(MidiPlayer p) {
     //    player = p;
     //}
