@@ -22,7 +22,6 @@ import java.util.*;
 public class ClefMeasures {
     private ArrayList<Clef> clefs;  /** The clefs used for each measure (for a single track) */
     private int measure;       /** The length of a measure, in pulses */
-
  
     /** Given the notes in a track, calculate the appropriate Clef to use
      * for each measure.  Store the result in the clefs list.
@@ -110,6 +109,3 @@ public class ClefMeasures {
         }
     }
 }
-
-
-
