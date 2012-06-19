@@ -196,7 +196,7 @@ public class MidiFiles {
     private ArrayList<ArrayList<MidiEvents>> allevents; /** The raw MidiEvents, one list per track */
     private ArrayList<MidiTracks> tracks ;  /** The tracks of the midifile that have notes */
     private short trackmode;         /** 0 (single track), 1 (simultaneous tracks) 2 (independent tracks) */
-    private TimeSignature timesig;    /** The time signature */
+    private TimeSignatures timesig;    /** The time signature */
     private int quarternote;          /** The number of pulses per quarter note */
     private int totalpulses;          /** The total length of the song, in pulses */
     private boolean trackPerChannel;  /** True if we've split each channel into a track */
@@ -427,7 +427,7 @@ public class MidiFiles {
     public ArrayList<MidiTracks> getTracks() { return tracks; }
 
     /** Get the time signature */
-    public TimeSignature getTime() { return timesig; }
+    public TimeSignatures getTime() { return timesig; }
 
     /** Get the file name */
     public String getFileName() { return filename; }
@@ -517,7 +517,7 @@ public class MidiFiles {
         if (numer == 0) {
             numer = 4; denom = 4;
         }
-        timesig = new TimeSignature(numer, denom, quarternote, tempo);
+        timesig = new TimeSignatures(numer, denom, quarternote, tempo);
     }
 
     /** Parse a single Midi track into a list of MidiEvents.
@@ -1152,7 +1152,7 @@ public class MidiFiles {
          * also extend the note durations, so that we have longer notes
          * and fewer rest symbols.
          */
-        TimeSignature time = timesig;
+        TimeSignatures time = timesig;
         if (options.time != null) {
             time = options.time;
         }
@@ -1504,7 +1504,7 @@ public class MidiFiles {
      * that are close together (timewise).
      */
     public static void
-    RoundStartTimes(ArrayList<MidiTracks> tracks, int millisec, TimeSignature time) {
+    RoundStartTimes(ArrayList<MidiTracks> tracks, int millisec, TimeSignatures time) {
         /* Get all the starttimes in all tracks, in sorted order */
         ListInt starttimes = new ListInt();
         for (MidiTracks track : tracks) {

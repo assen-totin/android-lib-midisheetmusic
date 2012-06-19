@@ -46,8 +46,8 @@ public class MidiOptions implements Serializable {
     public int shifttime;            /** Shift note starttimes by the given amount */
     public int transpose;            /** Shift note key up/down by given amount */
     public int key;                  /** Use the given KeySignature (NoteScale) */
-    public TimeSignature time;       /** Use the given time signature (null for default) */
-    public TimeSignature defaultTime;  /** The default time signature */
+    public TimeSignatures time;       /** Use the given time signature (null for default) */
+    public TimeSignatures defaultTime;  /** The default time signature */
     public int combineInterval;   /** Combine notes within given time interval (msec) */
 
     public boolean[] mute;    /** Which tracks to mute (true = mute) */

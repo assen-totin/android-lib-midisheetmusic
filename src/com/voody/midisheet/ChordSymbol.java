@@ -43,7 +43,7 @@ public class ChordSymbol implements MusicSymbol {
      * of the notes. Use the clef when drawing the chord.
      */
     public ChordSymbol(ArrayList<MidiNotes> midinotes, KeySignature key, 
-                       TimeSignature time, Clef c, SheetMusic sheet) {
+                       TimeSignatures time, Clef c, SheetMusic sheet) {
 
         int len = midinotes.size();
         int i;
@@ -144,7 +144,7 @@ public class ChordSymbol implements MusicSymbol {
  
     private static NoteData[] 
     CreateNoteData(ArrayList<MidiNotes> midinotes, KeySignature key,
-                   TimeSignature time) {
+                   TimeSignatures time) {
 
         int len = midinotes.size();
         NoteData[] notedata = new NoteData[len];
@@ -671,7 +671,7 @@ public class ChordSymbol implements MusicSymbol {
      * (only applies to 2-chord beams).
      */
     public static
-    boolean CanCreateBeam(ChordSymbol[] chords, TimeSignature time, boolean startQuarter) {
+    boolean CanCreateBeam(ChordSymbol[] chords, TimeSignatures time, boolean startQuarter) {
         int numChords = chords.length;
         Stem firstStem = chords[0].getStem();
         Stem lastStem = chords[chords.length-1].getStem();

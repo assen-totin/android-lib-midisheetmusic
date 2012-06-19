@@ -136,7 +136,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         //SetNoteSize(options.largeNoteSize);
         scrollVert = options.scrollVert;
         showNoteLetters = options.showNoteLetters;
-        TimeSignature time = file.getTime(); 
+        TimeSignatures time = file.getTime(); 
         if (options.time != null) {
             time = options.time;
         }
@@ -284,7 +284,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     private
     ArrayList<ChordSymbol> CreateChords(ArrayList<MidiNotes> midinotes, 
                                    KeySignature key,
-                                   TimeSignature time,
+                                   TimeSignatures time,
                                    ClefMeasures clefs) {
 
         int i = 0;
@@ -325,7 +325,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      */
     private ArrayList<MusicSymbol> 
     CreateSymbols(ArrayList<ChordSymbol> chords, ClefMeasures clefs,
-                  TimeSignature time, int lastStart) {
+                  TimeSignatures time, int lastStart) {
 
         ArrayList<MusicSymbol> symbols = new ArrayList<MusicSymbol>();
         symbols = AddBars(chords, time, lastStart);
@@ -339,7 +339,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      *  Also, add the time signature symbols.
      */
     private ArrayList<MusicSymbol> 
-    AddBars(ArrayList<ChordSymbol> chords, TimeSignature time, int lastStart) {
+    AddBars(ArrayList<ChordSymbol> chords, TimeSignatures time, int lastStart) {
         ArrayList<MusicSymbol> symbols = new ArrayList<MusicSymbol>();
 
         TimeSigSymbol timesig = new TimeSigSymbol(time.getNumerator(), time.getDenominator());
@@ -375,7 +375,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      * measured in pulses.
      */
     private
-    ArrayList<MusicSymbol> AddRests(ArrayList<MusicSymbol> symbols, TimeSignature time) {
+    ArrayList<MusicSymbol> AddRests(ArrayList<MusicSymbol> symbols, TimeSignatures time) {
         int prevtime = 0;
 
         ArrayList<MusicSymbol> result = new ArrayList<MusicSymbol>( symbols.size() );
@@ -407,7 +407,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      * start and end.  If no rests are needed, return nil.
      */
     private
-    RestSymbol[] GetRests(TimeSignature time, int start, int end) {
+    RestSymbol[] GetRests(TimeSignatures time, int start, int end) {
         RestSymbol[] result;
         RestSymbol r1, r2;
 
@@ -460,7 +460,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     private
     ArrayList<MusicSymbol> AddClefChanges(ArrayList<MusicSymbol> symbols,
                                      ClefMeasures clefs,
-                                     TimeSignature time) {
+                                     TimeSignatures time) {
 
         ArrayList<MusicSymbol> result = new ArrayList<MusicSymbol>( symbols.size() );
         Clef prevclef = clefs.GetClef(0);
@@ -565,7 +565,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      *  If we failed to find consecutive chords, return false.
      */
     private static boolean
-    FindConsecutiveChords(ArrayList<MusicSymbol> symbols, TimeSignature time,
+    FindConsecutiveChords(ArrayList<MusicSymbol> symbols, TimeSignatures time,
                           int startIndex, int[] chordIndexes,
                           BoxedInt horizDistance) {
 
@@ -624,7 +624,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      *  if startBeat is true, the first chord must start on a quarter note beat.
      */
     private static void
-    CreateBeamedChords(ArrayList<ArrayList<MusicSymbol>> allsymbols, TimeSignature time,
+    CreateBeamedChords(ArrayList<ArrayList<MusicSymbol>> allsymbols, TimeSignatures time,
                        int numChords, boolean startBeat) {
         int[] chordIndexes = new int[numChords];
         ChordSymbol[] chords = new ChordSymbol[numChords];
@@ -673,7 +673,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      *  - 2 connected chords that start on any beat
      */
     private static void
-    CreateAllBeamedChords(ArrayList<ArrayList<MusicSymbol>> allsymbols, TimeSignature time) {
+    CreateAllBeamedChords(ArrayList<ArrayList<MusicSymbol>> allsymbols, TimeSignatures time) {
         if ((time.getNumerator() == 3 && time.getDenominator() == 4) ||
             (time.getNumerator() == 6 && time.getDenominator() == 8) ||
             (time.getNumerator() == 6 && time.getDenominator() == 4) ) {

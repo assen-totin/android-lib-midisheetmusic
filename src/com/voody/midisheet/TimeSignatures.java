@@ -26,7 +26,7 @@ import java.io.*;
  * (like 120, 240, etc) into note durations (half, quarter, eighth, etc).
  */
 
-public class TimeSignature implements Serializable {
+public class TimeSignatures implements Serializable {
     /**
 	 * 
 	 */
@@ -55,7 +55,7 @@ public class TimeSignature implements Serializable {
     /** Create a new time signature, with the given numerator,
      * denominator, pulses per quarter note, and tempo.
      */
-    public TimeSignature(int numerator, int denominator, int quarternote, int tempo) {
+    public TimeSignatures(int numerator, int denominator, int quarternote, int tempo) {
         if (numerator <= 0 || denominator <= 0 || quarternote <= 0) {
             throw new MidiFileException("Invalid time signature", 0);
         }
