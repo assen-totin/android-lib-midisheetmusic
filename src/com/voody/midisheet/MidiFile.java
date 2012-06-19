@@ -438,7 +438,7 @@ public class MidiFile {
 
     /** Create a new MidiFile from the byte[] */
     public MidiFile(byte[] rawdata) {
-        this.filename = filename;
+        //this.filename = filename;
         parse(rawdata);
     }
 

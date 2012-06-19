@@ -97,8 +97,13 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         bufferX = bufferY = scrollX = scrollY = 0;
         
         Activity activity = (Activity)context;
-        screenwidth = activity.getWindowManager().getDefaultDisplay().getWidth();
-        screenheight = activity.getWindowManager().getDefaultDisplay().getHeight();
+        Point point = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(point);
+        screenwidth = point.x;
+        screenheight = point.y;
+        
+        //screenwidth = activity.getWindowManager().getDefaultDisplay().getWidth();
+        //screenheight = activity.getWindowManager().getDefaultDisplay().getHeight();
         //playerHeight = MidiPlayer.getPreferredSize(screenwidth, screenheight).y;
         scrollTimer = new Handler();
     }

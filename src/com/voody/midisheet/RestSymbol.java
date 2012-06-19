@@ -125,15 +125,20 @@ public class RestSymbol implements MusicSymbol {
         canvas.drawLine(0, y, xend+2, y + SheetMusic.NoteHeight, paint);
 
         paint.setStrokeWidth(SheetMusic.LineSpace/2);
+        
+        /*
         if (SheetMusic.NoteHeight == 6) {
             canvas.drawLine(xend, y + 1 + 3*SheetMusic.NoteHeight/4, 
                             x/2, y + 1 + 3*SheetMusic.NoteHeight/4, paint);
         }
-        else {  /* NoteHeight == 8 */
+        else {  //* NoteHeight == 8
             canvas.drawLine(xend, y + 3*SheetMusic.NoteHeight/4, 
                             x/2, y + 3*SheetMusic.NoteHeight/4, paint);
         }
-
+    	*/
+        canvas.drawLine(xend, y + 3*SheetMusic.NoteHeight/4, 
+                x/2, y + 3*SheetMusic.NoteHeight/4, paint);
+        
         paint.setStrokeWidth(1);
         canvas.drawLine(0, y + 2*SheetMusic.NoteHeight/3 + 1, 
                         xend - 1, y + 3*SheetMusic.NoteHeight/2, paint);
