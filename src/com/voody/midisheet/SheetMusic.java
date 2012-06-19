@@ -878,13 +878,13 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     /** Get the lyrics for each track */
     /*
     private static ArrayList<ArrayList<LyricSymbol>> 
-    GetLyrics(ArrayList<MidiTrack> tracks) {
+    GetLyrics(ArrayList<MidiTracks> tracks) {
        boolean hasLyrics = false;
         ArrayList<ArrayList<LyricSymbol>> result = new ArrayList<ArrayList<LyricSymbol>>();
         for (int tracknum = 0; tracknum < tracks.size(); tracknum++) {
             ArrayList<LyricSymbol> lyrics = new ArrayList<LyricSymbol>();
             result.add(lyrics);
-            MidiTrack track = tracks.get(tracknum);
+            MidiTracks track = tracks.get(tracknum);
             if (track.getLyrics() == null) {
                 continue;
             }
