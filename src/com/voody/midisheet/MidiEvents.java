@@ -19,7 +19,7 @@ import java.util.*;
  * A MidiEvent represents a single event (such as EventNoteOn) in the
  * Midi file. It includes the delta time of the event.
  */
-public class MidiEvent implements Comparator<MidiEvent> {
+public class MidiEvents implements Comparator<MidiEvents> {
 
     public int    DeltaTime;     /** The time between the previous event and this on */
     public int    StartTime;     /** The absolute time this event occurs */
@@ -42,12 +42,12 @@ public class MidiEvent implements Comparator<MidiEvent> {
     public int    Metalength;    /** The metaevent length  */
     public byte[] Value;         /** The raw byte value, for Sysex and meta events */
 
-    public MidiEvent() {
+    public MidiEvents() {
     }
 
     /** Return a copy of this event */
-    public MidiEvent Clone() {
-        MidiEvent mevent= new MidiEvent();
+    public MidiEvents Clone() {
+        MidiEvents mevent= new MidiEvents();
         mevent.DeltaTime = DeltaTime;
         mevent.StartTime = StartTime;
         mevent.HasEventflag = HasEventflag;
@@ -71,7 +71,7 @@ public class MidiEvent implements Comparator<MidiEvent> {
     }
 
     /** Compare two MidiEvents based on their start times. */
-    public int compare(MidiEvent x, MidiEvent y) {
+    public int compare(MidiEvents x, MidiEvents y) {
         if (x.StartTime == y.StartTime) {
             if (x.EventFlag == y.EventFlag) {
                 return x.Notenumber - y.Notenumber;

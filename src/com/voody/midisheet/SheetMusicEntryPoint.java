@@ -16,7 +16,7 @@ import android.os.Bundle;
 public class SheetMusicEntryPoint extends Activity {
     private SheetMusic sheet;    /* The sheet music */
     //private LinearLayout layout; /* The layout */
-    private MidiFile midifile;   /* The midi file to play */
+    private MidiFiles midifile;   /* The midi file to play */
     private MidiOptions options; /* The options for sheet music and sound */
 
     //private Resources resources;
@@ -29,7 +29,7 @@ public class SheetMusicEntryPoint extends Activity {
         ClefSymbol.LoadImages(this);
         TimeSigSymbol.LoadImages(this);    
        		
-        midifile = new MidiFile(data);
+        midifile = new MidiFiles(data);
         options = new MidiOptions(midifile);
 
         sheet = new SheetMusic(this);

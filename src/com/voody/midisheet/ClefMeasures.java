@@ -28,7 +28,7 @@ public class ClefMeasures {
      * @param notes  The midi notes
      * @param measurelen The length of a measure, in pulses
      */
-    public ClefMeasures(ArrayList<MidiNote> notes, int measurelen) {
+    public ClefMeasures(ArrayList<MidiNotes> notes, int measurelen) {
         measure = measurelen;
         Clef mainclef = MainClef(notes);
         int nextmeasure = measurelen;
@@ -92,10 +92,10 @@ public class ClefMeasures {
      * average note is below Middle C, use a bass clef.  Else, use a treble
      * clef.
      */
-    private static Clef MainClef(ArrayList<MidiNote> notes) {
+    private static Clef MainClef(ArrayList<MidiNotes> notes) {
         int middleC = WhiteNote.MiddleC.getNumber();
         int total = 0;
-        for (MidiNote m : notes) {
+        for (MidiNotes m : notes) {
             total += m.getNumber();
         }
         if (notes.size() == 0) {

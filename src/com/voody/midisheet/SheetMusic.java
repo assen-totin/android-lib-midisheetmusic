@@ -118,7 +118,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      * - Vertically align the music symbols in all the tracks
      * - Partition the music notes into horizontal staffs
      */
-    public void init(MidiFile file, MidiOptions options) {
+    public void init(MidiFiles file, MidiOptions options) {
         if (options == null) {
             options = new MidiOptions(file);
         }
@@ -132,7 +132,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         paint.setTextSize(10.0f);
         paint.setColor(Color.BLACK);
         
-        ArrayList<MidiTrack> tracks = file.ChangeMidiNotes(options);
+        ArrayList<MidiTracks> tracks = file.ChangeMidiNotes(options);
         //SetNoteSize(options.largeNoteSize);
         scrollVert = options.scrollVert;
         showNoteLetters = options.showNoteLetters;
@@ -160,7 +160,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
           new ArrayList<ArrayList<MusicSymbol> >(numtracks);
 
         for (int tracknum = 0; tracknum < numtracks; tracknum++) {
-            MidiTrack track = tracks.get(tracknum);
+            MidiTracks track = tracks.get(tracknum);
             ClefMeasures clefs = new ClefMeasures(track.getNotes(), time.getMeasure());
             ArrayList<ChordSymbol> chords = CreateChords(track.getNotes(), mainkey, time, clefs);
             allsymbols.add(CreateSymbols(chords, clefs, time, lastStart));
@@ -263,10 +263,10 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     
 
     /** Get the best key signature given the midi notes in all the tracks. */
-    private KeySignature GetKeySignature(ArrayList<MidiTrack> tracks) {
+    private KeySignature GetKeySignature(ArrayList<MidiTracks> tracks) {
         ListInt notenums = new ListInt();
-        for (MidiTrack track : tracks) {
-            for (MidiNote note : track.getNotes()) {
+        for (MidiTracks track : tracks) {
+            for (MidiNotes note : track.getNotes()) {
                 notenums.add(note.getNumber());
             }
         }
@@ -282,14 +282,14 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
      * @ret An array of ChordSymbols
      */
     private
-    ArrayList<ChordSymbol> CreateChords(ArrayList<MidiNote> midinotes, 
+    ArrayList<ChordSymbol> CreateChords(ArrayList<MidiNotes> midinotes, 
                                    KeySignature key,
                                    TimeSignature time,
                                    ClefMeasures clefs) {
 
         int i = 0;
         ArrayList<ChordSymbol> chords = new ArrayList<ChordSymbol>();
-        ArrayList<MidiNote> notegroup = new ArrayList<MidiNote>(12);
+        ArrayList<MidiNotes> notegroup = new ArrayList<MidiNotes>(12);
         int len = midinotes.size(); 
 
         while (i < len) {

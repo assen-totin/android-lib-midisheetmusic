@@ -42,7 +42,7 @@ public class ChordSymbol implements MusicSymbol {
      * each note.  Use the time signature to calculate the duration
      * of the notes. Use the clef when drawing the chord.
      */
-    public ChordSymbol(ArrayList<MidiNote> midinotes, KeySignature key, 
+    public ChordSymbol(ArrayList<MidiNotes> midinotes, KeySignature key, 
                        TimeSignature time, Clef c, SheetMusic sheet) {
 
         int len = midinotes.size();
@@ -143,14 +143,14 @@ public class ChordSymbol implements MusicSymbol {
      */
  
     private static NoteData[] 
-    CreateNoteData(ArrayList<MidiNote> midinotes, KeySignature key,
+    CreateNoteData(ArrayList<MidiNotes> midinotes, KeySignature key,
                    TimeSignature time) {
 
         int len = midinotes.size();
         NoteData[] notedata = new NoteData[len];
 
         for (int i = 0; i < len; i++) {
-            MidiNote midi = midinotes.get(i);
+            MidiNotes midi = midinotes.get(i);
             notedata[i] = new NoteData();
             notedata[i].number = midi.getNumber();
             notedata[i].leftside = true;

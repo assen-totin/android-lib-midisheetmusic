@@ -33,7 +33,7 @@ import java.util.*;
  * is initially unknown (set to 0).  When the corresponding NoteOff event
  * is found, the duration is set by the method NoteOff().
  */
-public class MidiNote implements Comparator<MidiNote> {
+public class MidiNotes implements Comparator<MidiNotes> {
     private int starttime;   /** The start time, in pulses */
     private int channel;     /** The channel */
     private int notenumber;  /** The note, from 0 to 127. Middle C is 60 */
@@ -43,7 +43,7 @@ public class MidiNote implements Comparator<MidiNote> {
     /* Create a new MidiNote.  This is called when a NoteOn event is
      * encountered in the MidiFile.
      */
-    public MidiNote(int starttime, int channel, int notenumber, int duration) {
+    public MidiNotes(int starttime, int channel, int notenumber, int duration) {
         this.starttime = starttime;
         this.channel = channel;
         this.notenumber = notenumber;
@@ -75,7 +75,7 @@ public class MidiNote implements Comparator<MidiNote> {
     /** Compare two MidiNotes based on their start times.
      *  If the start times are equal, compare by their numbers.
      */
-    public int compare(MidiNote x, MidiNote y) {
+    public int compare(MidiNotes x, MidiNotes y) {
         if (x.getStartTime() == y.getStartTime())
             return x.getNumber() - y.getNumber();
         else
@@ -83,8 +83,8 @@ public class MidiNote implements Comparator<MidiNote> {
     }
 
 
-    public MidiNote Clone() {
-        return new MidiNote(starttime, channel, notenumber, duration);
+    public MidiNotes Clone() {
+        return new MidiNotes(starttime, channel, notenumber, duration);
     }
 
     @Override

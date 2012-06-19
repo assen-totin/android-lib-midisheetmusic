@@ -191,10 +191,10 @@ class PairInt {
  *   
  */
 
-public class MidiFile {
+public class MidiFiles {
     private String filename;          /** The Midi file name */
-    private ArrayList<ArrayList<MidiEvent>> allevents; /** The raw MidiEvents, one list per track */
-    private ArrayList<MidiTrack> tracks ;  /** The tracks of the midifile that have notes */
+    private ArrayList<ArrayList<MidiEvents>> allevents; /** The raw MidiEvents, one list per track */
+    private ArrayList<MidiTracks> tracks ;  /** The tracks of the midifile that have notes */
     private short trackmode;         /** 0 (single track), 1 (simultaneous tracks) 2 (independent tracks) */
     private TimeSignature timesig;    /** The time signature */
     private int quarternote;          /** The number of pulses per quarter note */
@@ -424,7 +424,7 @@ public class MidiFile {
 */
 
     /** Get the list of tracks */
-    public ArrayList<MidiTrack> getTracks() { return tracks; }
+    public ArrayList<MidiTracks> getTracks() { return tracks; }
 
     /** Get the time signature */
     public TimeSignature getTime() { return timesig; }
@@ -437,7 +437,7 @@ public class MidiFile {
 
 
     /** Create a new MidiFile from the byte[] */
-    public MidiFile(byte[] rawdata) {
+    public MidiFiles(byte[] rawdata) {
         //this.filename = filename;
         parse(rawdata);
     }
@@ -453,7 +453,7 @@ public class MidiFile {
         String id;
         int len;
 
-        tracks = new ArrayList<MidiTrack>();
+        tracks = new ArrayList<MidiTracks>();
         trackPerChannel = false;
 
         MidiFileReader file = new MidiFileReader(rawdata);
@@ -469,18 +469,18 @@ public class MidiFile {
         int num_tracks = file.ReadShort();
         quarternote = file.ReadShort(); 
 
-        allevents = new ArrayList<ArrayList<MidiEvent>>();
+        allevents = new ArrayList<ArrayList<MidiEvents>>();
         for (int tracknum = 0; tracknum < num_tracks; tracknum++) {
             allevents.add(ReadTrack(file));
-            MidiTrack track = new MidiTrack(allevents.get(tracknum), tracknum);
+            MidiTracks track = new MidiTracks(allevents.get(tracknum), tracknum);
             if (track.getNotes().size() > 0) {
                 tracks.add(track);
             }
         }
 
         /* Get the length of the song in pulses */
-        for (MidiTrack track : tracks) {
-            MidiNote last = track.getNotes().get( track.getNotes().size()-1 );
+        for (MidiTracks track : tracks) {
+            MidiNotes last = track.getNotes().get( track.getNotes().size()-1 );
             if (this.totalpulses < last.getStartTime() + last.getDuration()) {
                 this.totalpulses = last.getStartTime() + last.getDuration();
             }
@@ -500,8 +500,8 @@ public class MidiFile {
         int tempo = 0;
         int numer = 0;
         int denom = 0;
-        for (ArrayList<MidiEvent> list : allevents) {
-            for (MidiEvent mevent : list) {
+        for (ArrayList<MidiEvents> list : allevents) {
+            for (MidiEvents mevent : list) {
                 if (mevent.Metaevent == MetaEventTempo && tempo == 0) {
                     tempo = mevent.Tempo;
                 }
@@ -525,8 +525,8 @@ public class MidiFile {
      * the MTrk header.  Upon exiting, the file offset should be at the
      * start of the next MTrk header.
      */
-    private ArrayList<MidiEvent> ReadTrack(MidiFileReader file) {
-        ArrayList<MidiEvent> result = new ArrayList<MidiEvent>(20);
+    private ArrayList<MidiEvents> ReadTrack(MidiFileReader file) {
+        ArrayList<MidiEvents> result = new ArrayList<MidiEvents>(20);
         int starttime = 0;
         String id = file.ReadAscii(4);
 
@@ -556,7 +556,7 @@ public class MidiFile {
                 return result;
             }
 
-            MidiEvent mevent = new MidiEvent();
+            MidiEvents mevent = new MidiEvents();
             result.add(mevent);
             mevent.DeltaTime = deltatime;
             mevent.StartTime = starttime;
@@ -668,9 +668,9 @@ public class MidiFile {
      * If a MidiFile contains only one track, and it has multiple channels,
      * then we treat each channel as a separate track.
      */
-    static boolean HasMultipleChannels(MidiTrack track) {
+    static boolean HasMultipleChannels(MidiTracks track) {
         int channel = track.getNotes().get(0).getChannel();
-        for (MidiNote note : track.getNotes()) {
+        for (MidiNotes note : track.getNotes()) {
             if (note.getChannel() != channel) {
                 return true;
             }
@@ -720,10 +720,10 @@ public class MidiFile {
     }
 
     /** Calculate the track length (in bytes) given a list of Midi events */
-    private static int GetTrackLength(ArrayList<MidiEvent> events) {
+    private static int GetTrackLength(ArrayList<MidiEvents> events) {
         int len = 0;
         byte[] buf = new byte[1024];
-        for (MidiEvent mevent : events) {
+        for (MidiEvents mevent : events) {
             len += VarlenToBytes(mevent.DeltaTime, buf, 0);
             len += 1;  /* for eventflag */
             switch (mevent.EventFlag) {
@@ -768,7 +768,7 @@ public class MidiFile {
      *  Return true on success, and false on error.
      */
     private static void
-    WriteEvents(FileOutputStream file, ArrayList<ArrayList<MidiEvent>> allevents, 
+    WriteEvents(FileOutputStream file, ArrayList<ArrayList<MidiEvents>> allevents, 
                   int trackmode, int quarter) throws IOException {
 
         byte[] buf = new byte[4096];
@@ -787,14 +787,14 @@ public class MidiFile {
         buf[1] = (byte)(quarter & 0xFF);
         file.write(buf, 0, 2);
 
-        for (ArrayList<MidiEvent> list : allevents) {
+        for (ArrayList<MidiEvents> list : allevents) {
             /* Write the MTrk header and track length */
             file.write("MTrk".getBytes("US-ASCII"), 0, 4);
             int len = GetTrackLength(list);
             IntToBytes(len, buf, 0);
             file.write(buf, 0, 4);
 
-            for (MidiEvent mevent : list) {
+            for (MidiEvents mevent : list) {
                 int varlen = VarlenToBytes(mevent.DeltaTime, buf, 0);
                 file.write(buf, 0, varlen);
 
@@ -872,15 +872,15 @@ public class MidiFile {
 
 
     /** Clone the list of MidiEvents */
-    private static ArrayList<ArrayList<MidiEvent>> 
-    CloneMidiEvents(ArrayList<ArrayList<MidiEvent>> origlist) {
-        ArrayList<ArrayList<MidiEvent>> newlist = 
-           new ArrayList<ArrayList<MidiEvent>>(origlist.size());
+    private static ArrayList<ArrayList<MidiEvents>> 
+    CloneMidiEvents(ArrayList<ArrayList<MidiEvents>> origlist) {
+        ArrayList<ArrayList<MidiEvents>> newlist = 
+           new ArrayList<ArrayList<MidiEvents>>(origlist.size());
         for (int tracknum = 0; tracknum < origlist.size(); tracknum++) {
-            ArrayList<MidiEvent> origevents = origlist.get(tracknum);
-            ArrayList<MidiEvent> newevents = new ArrayList<MidiEvent>(origevents.size());
+            ArrayList<MidiEvents> origevents = origlist.get(tracknum);
+            ArrayList<MidiEvents> newevents = new ArrayList<MidiEvents>(origevents.size());
             newlist.add(newevents);
-            for (MidiEvent mevent : origevents) {
+            for (MidiEvents mevent : origevents) {
                 newevents.add( mevent.Clone() );
             }
         }
@@ -888,8 +888,8 @@ public class MidiFile {
     }
 
     /** Create a new Midi tempo event, with the given tempo  */
-    private static MidiEvent CreateTempoEvent(int tempo) {
-        MidiEvent mevent = new MidiEvent();
+    private static MidiEvents CreateTempoEvent(int tempo) {
+        MidiEvents mevent = new MidiEvents();
         mevent.DeltaTime = 0;
         mevent.StartTime = 0;
         mevent.HasEventflag = true;
@@ -906,8 +906,8 @@ public class MidiFile {
      *  update the control value.  Else, add a new ControlChange event.
      */
     private static void
-    UpdateControlChange(ArrayList<MidiEvent> newevents, MidiEvent changeEvent) {
-        for (MidiEvent mevent : newevents) {
+    UpdateControlChange(ArrayList<MidiEvents> newevents, MidiEvents changeEvent) {
+        for (MidiEvents mevent : newevents) {
             if ((mevent.EventFlag == changeEvent.EventFlag) &&
                 (mevent.Channel == changeEvent.Channel) &&
                 (mevent.ControlNum == changeEvent.ControlNum)) {
@@ -926,15 +926,15 @@ public class MidiFile {
      *  before the pause time.  Return the modified Midi Events.
      */
     private static 
-    ArrayList<ArrayList<MidiEvent>> StartAtPauseTime(ArrayList<ArrayList<MidiEvent>> list, int pauseTime) {
-        ArrayList<ArrayList<MidiEvent>> newlist = new ArrayList<ArrayList<MidiEvent>>(list.size());
+    ArrayList<ArrayList<MidiEvents>> StartAtPauseTime(ArrayList<ArrayList<MidiEvents>> list, int pauseTime) {
+        ArrayList<ArrayList<MidiEvents>> newlist = new ArrayList<ArrayList<MidiEvents>>(list.size());
         for (int tracknum = 0; tracknum < list.size(); tracknum++) {
-            ArrayList<MidiEvent> events = list.get(tracknum);
-            ArrayList<MidiEvent> newevents = new ArrayList<MidiEvent>(events.size());
+            ArrayList<MidiEvents> events = list.get(tracknum);
+            ArrayList<MidiEvents> newevents = new ArrayList<MidiEvents>(events.size());
             newlist.add(newevents);
 
             boolean foundEventAfterPause = false;
-            for (MidiEvent mevent : events) {
+            for (MidiEvents mevent : events) {
 
                 if (mevent.StartTime < pauseTime) {
                     if (mevent.EventFlag == EventNoteOn ||
@@ -976,7 +976,7 @@ public class MidiFile {
 
     public void Write(FileOutputStream destfile, MidiOptions options) 
       throws IOException {
-        ArrayList<ArrayList<MidiEvent>> newevents = allevents;
+        ArrayList<ArrayList<MidiEvents>> newevents = allevents;
         if (options != null) {
             newevents = ApplyOptionsToEvents(options);
         }
@@ -990,7 +990,7 @@ public class MidiFile {
      * - The tracks to include
      * Return the modified list of midi events.
      */
-    public ArrayList<ArrayList<MidiEvent>>
+    public ArrayList<ArrayList<MidiEvents>>
     ApplyOptionsToEvents(MidiOptions options) {
         int i;
         if (trackPerChannel) {
@@ -1011,7 +1011,7 @@ public class MidiFile {
             keeptracks[i] = true;
         }
         for (int tracknum = 0; tracknum < tracks.size(); tracknum++) {
-            MidiTrack track = tracks.get(tracknum);
+            MidiTracks track = tracks.get(tracknum);
             int realtrack = track.trackNumber();
             instruments[realtrack] = options.instruments[tracknum];
             if (options.tracks[tracknum] == false || options.mute[tracknum] == true) {
@@ -1019,17 +1019,17 @@ public class MidiFile {
             }
         }
 
-        ArrayList<ArrayList<MidiEvent>> newevents = CloneMidiEvents(allevents);
+        ArrayList<ArrayList<MidiEvents>> newevents = CloneMidiEvents(allevents);
 
         /* Set the tempo at the beginning of each track */
         for (int tracknum = 0; tracknum < newevents.size(); tracknum++) {
-            MidiEvent mevent = CreateTempoEvent(options.tempo);
+            MidiEvents mevent = CreateTempoEvent(options.tempo);
             newevents.get(tracknum).add(0, mevent);
         }
 
         /* Change the note number (transpose), instrument, and tempo */
         for (int tracknum = 0; tracknum < newevents.size(); tracknum++) {
-            for (MidiEvent mevent : newevents.get(tracknum)) {
+            for (MidiEvents mevent : newevents.get(tracknum)) {
                 int num = mevent.Notenumber + options.transpose;
                 if (num < 0)
                     num = 0;
@@ -1054,7 +1054,7 @@ public class MidiFile {
                 count++;
             }
         }
-        ArrayList<ArrayList<MidiEvent>> result = new ArrayList<ArrayList<MidiEvent>>(count);
+        ArrayList<ArrayList<MidiEvents>> result = new ArrayList<ArrayList<MidiEvents>>(count);
         i = 0;
         for (int tracknum = 0; tracknum < keeptracks.length; tracknum++) {
             if (keeptracks[tracknum]) {
@@ -1082,7 +1082,7 @@ public class MidiFile {
      * - We include/exclude channels, not tracks.
      * - We exclude a channel by setting the note volume/velocity to 0.
      */
-    public ArrayList<ArrayList<MidiEvent>>
+    public ArrayList<ArrayList<MidiEvents>>
     ApplyOptionsPerChannel(MidiOptions options) {
         /* Determine which channels to include/exclude.
          * Also, determine the instruments for each channel.
@@ -1094,7 +1094,7 @@ public class MidiFile {
             keepchannel[i] = true;
         }
         for (int tracknum = 0; tracknum < tracks.size(); tracknum++) {
-            MidiTrack track = tracks.get(tracknum);
+            MidiTracks track = tracks.get(tracknum);
             int channel = track.getNotes().get(0).getChannel();
             instruments[channel] = options.instruments[tracknum];
             if (options.tracks[tracknum] == false || options.mute[tracknum] == true) {
@@ -1102,17 +1102,17 @@ public class MidiFile {
             }
         }
         
-        ArrayList<ArrayList<MidiEvent>> newevents = CloneMidiEvents(allevents);
+        ArrayList<ArrayList<MidiEvents>> newevents = CloneMidiEvents(allevents);
 
         /* Set the tempo at the beginning of each track */
         for (int tracknum = 0; tracknum < newevents.size(); tracknum++) {
-            MidiEvent mevent = CreateTempoEvent(options.tempo);
+            MidiEvents mevent = CreateTempoEvent(options.tempo);
             newevents.get(tracknum).add(0, mevent);
         }
 
         /* Change the note number (transpose), instrument, and tempo */
         for (int tracknum = 0; tracknum < newevents.size(); tracknum++) {
-            for (MidiEvent mevent : newevents.get(tracknum)) {
+            for (MidiEvents mevent : newevents.get(tracknum)) {
                 int num = mevent.Notenumber + options.transpose;
                 if (num < 0)
                     num = 0;
@@ -1138,8 +1138,8 @@ public class MidiFile {
     /** Apply the given sheet music options to the MidiNotes.
      *  Return the midi tracks with the changes applied.
      */
-    public ArrayList<MidiTrack> ChangeMidiNotes(MidiOptions options) {
-        ArrayList<MidiTrack> newtracks = new ArrayList<MidiTrack>();
+    public ArrayList<MidiTracks> ChangeMidiNotes(MidiOptions options) {
+        ArrayList<MidiTracks> newtracks = new ArrayList<MidiTracks>();
 
         for (int track = 0; track < tracks.size(); track++) {
             if (options.tracks[track]) {
@@ -1156,17 +1156,17 @@ public class MidiFile {
         if (options.time != null) {
             time = options.time;
         }
-        MidiFile.RoundStartTimes(newtracks, options.combineInterval, timesig);
-        MidiFile.RoundDurations(newtracks, time.getQuarter());
+        MidiFiles.RoundStartTimes(newtracks, options.combineInterval, timesig);
+        MidiFiles.RoundDurations(newtracks, time.getQuarter());
 
         if (options.twoStaffs) {
-            newtracks = MidiFile.CombineToTwoTracks(newtracks, timesig.getMeasure());
+            newtracks = MidiFiles.CombineToTwoTracks(newtracks, timesig.getMeasure());
         }
         if (options.shifttime != 0) {
-            MidiFile.ShiftTime(newtracks, options.shifttime);
+            MidiFiles.ShiftTime(newtracks, options.shifttime);
         }
         if (options.transpose != 0) {
-            MidiFile.Transpose(newtracks, options.transpose);
+            MidiFiles.Transpose(newtracks, options.transpose);
         }
 
         return newtracks;
@@ -1177,10 +1177,10 @@ public class MidiFile {
      * This is used by the Shift Notes menu to shift notes left/right.
      */
     public static void
-    ShiftTime(ArrayList<MidiTrack> tracks, int amount)
+    ShiftTime(ArrayList<MidiTracks> tracks, int amount)
     {
-        for (MidiTrack track : tracks) {
-            for (MidiNote note : track.getNotes()) {
+        for (MidiTracks track : tracks) {
+            for (MidiNotes note : track.getNotes()) {
                 note.setStartTime(note.getStartTime() + amount);
             }
         }
@@ -1188,10 +1188,10 @@ public class MidiFile {
 
     /** Shift the note keys up/down by the given amount */
     public static void
-    Transpose(ArrayList<MidiTrack> tracks, int amount)
+    Transpose(ArrayList<MidiTracks> tracks, int amount)
     {
-        for (MidiTrack track : tracks) {
-            for (MidiNote note : track.getNotes()) {
+        for (MidiTracks track : tracks) {
+            for (MidiNotes note : track.getNotes()) {
                 note.setNumber(note.getNumber() + amount);
                 if (note.getNumber() < 0) {
                     note.setNumber(0);
@@ -1210,7 +1210,7 @@ public class MidiFile {
      * reasonably close to this note.
      */
     private static void
-    FindHighLowNotes(ArrayList<MidiNote> notes, int measurelen, int startindex, 
+    FindHighLowNotes(ArrayList<MidiNotes> notes, int measurelen, int startindex, 
                      int starttime, int endtime, PairInt pair) {
 
         int i = startindex;
@@ -1239,7 +1239,7 @@ public class MidiFile {
 
     /* Find the highest and lowest notes that start at this exact start time */
     private static void
-    FindExactHighLowNotes(ArrayList<MidiNote> notes, int startindex, int starttime,
+    FindExactHighLowNotes(ArrayList<MidiNotes> notes, int startindex, int starttime,
                           PairInt pair) {
 
         int i = startindex;
@@ -1266,13 +1266,13 @@ public class MidiFile {
      * This function is used to split piano songs into left-hand (bottom)
      * and right-hand (top) tracks.
      */
-    public static ArrayList<MidiTrack> SplitTrack(MidiTrack track, int measurelen) {
-        ArrayList<MidiNote> notes = track.getNotes();
+    public static ArrayList<MidiTracks> SplitTrack(MidiTracks track, int measurelen) {
+        ArrayList<MidiNotes> notes = track.getNotes();
         int count = notes.size();
 
-        MidiTrack top = new MidiTrack(1);
-        MidiTrack bottom = new MidiTrack(2);
-        ArrayList<MidiTrack> result = new ArrayList<MidiTrack>(2);
+        MidiTracks top = new MidiTracks(1);
+        MidiTracks bottom = new MidiTracks(2);
+        ArrayList<MidiTracks> result = new ArrayList<MidiTracks>(2);
         result.add(top); result.add(bottom);
 
         if (count == 0)
@@ -1282,7 +1282,7 @@ public class MidiFile {
         int prevlow   = 45; /* A3, bottom of bass staff */
         int startindex = 0;
 
-        for (MidiNote note : notes) {
+        for (MidiNotes note : notes) {
             int high, low, highExact, lowExact;
             
             int number = note.getNumber();
@@ -1377,17 +1377,17 @@ public class MidiFile {
      *  The individual tracks are already sorted.  To merge them, we
      *  use a mergesort-like algorithm.
      */
-    public static MidiTrack CombineToSingleTrack(ArrayList<MidiTrack> tracks)
+    public static MidiTracks CombineToSingleTrack(ArrayList<MidiTracks> tracks)
     {
         /* Add all notes into one track */
-        MidiTrack result = new MidiTrack(1);
+        MidiTracks result = new MidiTracks(1);
 
         if (tracks.size() == 0) {
             return result;
         }
         else if (tracks.size() == 1) {
-            MidiTrack track = tracks.get(0);
-            for (MidiNote note : track.getNotes()) {
+            MidiTracks track = tracks.get(0);
+            for (MidiNotes note : track.getNotes()) {
                 result.AddNote(note);
             }
             return result;
@@ -1400,16 +1400,16 @@ public class MidiFile {
             noteindex[tracknum] = 0;
             notecount[tracknum] = tracks.get(tracknum).getNotes().size();
         }
-        MidiNote prevnote = null;
+        MidiNotes prevnote = null;
         while (true) {
-            MidiNote lowestnote = null;
+            MidiNotes lowestnote = null;
             int lowestTrack = -1;
             for (int tracknum = 0; tracknum < tracks.size(); tracknum++) {
-                MidiTrack track = tracks.get(tracknum);
+                MidiTracks track = tracks.get(tracknum);
                 if (noteindex[tracknum] >= notecount[tracknum]) {
                     continue;
                 }
-                MidiNote note = track.getNotes().get( noteindex[tracknum] );
+                MidiNotes note = track.getNotes().get( noteindex[tracknum] );
                 if (lowestnote == null) {
                     lowestnote = note;
                     lowestTrack = tracknum;
@@ -1454,13 +1454,13 @@ public class MidiFile {
      * the left-hand track, and the higher notes go into the right hand 
      * track.
      */
-    public static ArrayList<MidiTrack> CombineToTwoTracks(ArrayList<MidiTrack> tracks, int measurelen)
+    public static ArrayList<MidiTracks> CombineToTwoTracks(ArrayList<MidiTracks> tracks, int measurelen)
     {
-        MidiTrack single = CombineToSingleTrack(tracks);
-        ArrayList<MidiTrack> result = SplitTrack(single, measurelen);
+        MidiTracks single = CombineToSingleTrack(tracks);
+        ArrayList<MidiTracks> result = SplitTrack(single, measurelen);
 
-        ArrayList<MidiEvent> lyrics = new ArrayList<MidiEvent>();
-        for (MidiTrack track : tracks) {
+        ArrayList<MidiEvents> lyrics = new ArrayList<MidiEvents>();
+        for (MidiTracks track : tracks) {
             if (track.getLyrics() != null) {
                 lyrics.addAll(track.getLyrics());
             }
@@ -1476,10 +1476,10 @@ public class MidiFile {
     /** Check that the MidiNote start times are in increasing order.
      * This is for debugging purposes.
      */
-    private static void CheckStartTimes(ArrayList<MidiTrack> tracks) {
-        for (MidiTrack track : tracks) {
+    private static void CheckStartTimes(ArrayList<MidiTracks> tracks) {
+        for (MidiTracks track : tracks) {
             int prevtime = -1;
-            for (MidiNote note : track.getNotes()) {
+            for (MidiNotes note : track.getNotes()) {
                 if (note.getStartTime() < prevtime) {
                     throw new MidiFileException("Internal parsing error", 0);
                 }
@@ -1504,11 +1504,11 @@ public class MidiFile {
      * that are close together (timewise).
      */
     public static void
-    RoundStartTimes(ArrayList<MidiTrack> tracks, int millisec, TimeSignature time) {
+    RoundStartTimes(ArrayList<MidiTracks> tracks, int millisec, TimeSignature time) {
         /* Get all the starttimes in all tracks, in sorted order */
         ListInt starttimes = new ListInt();
-        for (MidiTrack track : tracks) {
-            for (MidiNote note : track.getNotes()) {
+        for (MidiTracks track : tracks) {
+            for (MidiNotes note : track.getNotes()) {
                 starttimes.add(note.getStartTime());
             }
         }
@@ -1527,10 +1527,10 @@ public class MidiFile {
         CheckStartTimes(tracks);
 
         /* Adjust the note starttimes, so that it matches one of the starttimes values */
-        for (MidiTrack track : tracks) {
+        for (MidiTracks track : tracks) {
             int i = 0;
 
-            for (MidiNote note : track.getNotes()) {
+            for (MidiNotes note : track.getNotes()) {
                 while (i < starttimes.size() &&
                        note.getStartTime() - interval > starttimes.get(i)) {
                     i++;
@@ -1557,18 +1557,18 @@ public class MidiFile {
      * the next note where possible.
      */
     public static void
-    RoundDurations(ArrayList<MidiTrack> tracks, int quarternote) {
+    RoundDurations(ArrayList<MidiTracks> tracks, int quarternote) {
 
-        for (MidiTrack track : tracks ) {
-            MidiNote prevNote = null;
+        for (MidiTracks track : tracks ) {
+            MidiNotes prevNote = null;
             for (int i = 0; i < track.getNotes().size() - 1; i++) {
-                MidiNote note1 = track.getNotes().get(i);
+                MidiNotes note1 = track.getNotes().get(i);
                 if (prevNote == null) {
                     prevNote = note1;
                 }
 
                 /* Get the next note that has a different start time */
-                MidiNote note2 = note1;
+                MidiNotes note2 = note1;
                 for (int j = i+1; j < track.getNotes().size(); j++) {
                     note2 = track.getNotes().get(j);
                     if (note1.getStartTime() < note2.getStartTime()) {
@@ -1613,29 +1613,29 @@ public class MidiFile {
     /** Split the given track into multiple tracks, separating each
      * channel into a separate track.
      */
-    private static ArrayList<MidiTrack> 
-    SplitChannels(MidiTrack origtrack, ArrayList<MidiEvent> events) {
+    private static ArrayList<MidiTracks> 
+    SplitChannels(MidiTracks origtrack, ArrayList<MidiEvents> events) {
 
         /* Find the instrument used for each channel */
         int[] channelInstruments = new int[16];
-        for (MidiEvent mevent : events) {
+        for (MidiEvents mevent : events) {
             if (mevent.EventFlag == EventProgramChange) {
                 channelInstruments[mevent.Channel] = mevent.Instrument;
             }
         }
         channelInstruments[9] = 128; /* Channel 9 = Percussion */
 
-        ArrayList<MidiTrack> result = new ArrayList<MidiTrack>();
-        for (MidiNote note : origtrack.getNotes()) {
+        ArrayList<MidiTracks> result = new ArrayList<MidiTracks>();
+        for (MidiNotes note : origtrack.getNotes()) {
             boolean foundchannel = false;
-            for (MidiTrack track : result) {
+            for (MidiTracks track : result) {
                 if (note.getChannel() == track.getNotes().get(0).getChannel()) {
                     foundchannel = true;
                     track.AddNote(note); 
                 }
             }
             if (!foundchannel) {
-                MidiTrack track = new MidiTrack(result.size() + 1);
+                MidiTracks track = new MidiTracks(result.size() + 1);
                 track.AddNote(note);
                 track.setInstrument(channelInstruments[note.getChannel()]);
                 result.add(track);
@@ -1660,7 +1660,7 @@ public class MidiFile {
 
         /* Get the start time of the first note in the midi file. */
         int firstnote = timesig.getMeasure() * 5;
-        for (MidiTrack track : tracks) {
+        for (MidiTracks track : tracks) {
             if (firstnote > track.getNotes().get(0).getStartTime()) {
                 firstnote = track.getNotes().get(0).getStartTime();
             }
@@ -1669,9 +1669,9 @@ public class MidiFile {
         /* interval = 0.06 seconds, converted into pulses */
         int interval = timesig.getQuarter() * 60000 / timesig.getTempo();
 
-        for (MidiTrack track : tracks) {
+        for (MidiTracks track : tracks) {
             int prevtime = 0;
-            for (MidiNote note : track.getNotes()) {
+            for (MidiNotes note : track.getNotes()) {
                 if (note.getStartTime() - prevtime <= interval)
                     continue;
 
@@ -1698,7 +1698,7 @@ public class MidiFile {
     /** Return the last start time */
     public int EndTime() {
         int lastStart = 0;
-        for (MidiTrack track : tracks) {
+        for (MidiTracks track : tracks) {
             if (track.getNotes().size() == 0) {
                 continue;
             }
@@ -1711,7 +1711,7 @@ public class MidiFile {
 
     /** Return true if this midi file has lyrics */
     public boolean hasLyrics() {
-        for (MidiTrack track : tracks) {
+        for (MidiTracks track : tracks) {
             if (track.getLyrics() != null) {
                 return true;
             }
@@ -1724,7 +1724,7 @@ public class MidiFile {
     public String toString() {
         String result = "Midi File tracks=" + tracks.size() + " quarter=" + quarternote + "\n";
         result += timesig.toString() + "\n";
-        for(MidiTrack track : tracks) {
+        for(MidiTracks track : tracks) {
             result += track.toString();
         }
         return result;

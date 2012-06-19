@@ -59,7 +59,7 @@ public class MidiOptions implements Serializable {
     public int     playMeasuresInLoopEnd;   /** End measure to play in loop */
     public int     lastMeasure;             /** The last measure in the song */
 
-    public MidiOptions(MidiFile midifile) {
+    public MidiOptions(MidiFiles midifile) {
         int num_tracks = midifile.getTracks().size();
         tracks = new boolean[num_tracks];
         mute = new boolean[num_tracks];

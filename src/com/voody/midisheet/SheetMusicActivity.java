@@ -34,7 +34,7 @@ public class SheetMusicActivity extends Activity {
     
     private SheetMusic sheet;    /* The sheet music */
     private LinearLayout layout; /* THe layout */
-    private MidiFile midifile;   /* The midi file to play */
+    private MidiFiles midifile;   /* The midi file to play */
     private MidiOptions options; /* The options for sheet music and sound */
 
     private Resources resources;
@@ -70,7 +70,7 @@ public class SheetMusicActivity extends Activity {
         	e.printStackTrace();
         }
         		
-        midifile = new MidiFile(data);
+        midifile = new MidiFiles(data);
         options = new MidiOptions(midifile);
         createSheetMusic(options);
     }
