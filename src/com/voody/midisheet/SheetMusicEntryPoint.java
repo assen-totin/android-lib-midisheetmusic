@@ -55,7 +55,7 @@ public class SheetMusicEntryPoint extends Activity {
     	//layout = new LinearLayout(this);
         //layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(sheet);       
-        //setContentView(layout);
+        setContentView(layout);
         layout.requestLayout();
 
         sheet.callOnDraw();
