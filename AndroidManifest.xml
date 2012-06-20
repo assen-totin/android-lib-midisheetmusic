@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.voody.midisheet.SheetMusicEntryPoint" >
+        <activity android:name=".SheetMusicEntryPoint" >
         </activity> 
     </application>
 </manifest>

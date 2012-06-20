@@ -17,6 +17,7 @@ import android.app.*;
 import android.content.*;
 import android.graphics.*;
 import android.os.*;
+//import android.util.AttributeSet;
 import android.view.*;
 
 /** @class BoxedInt **/
@@ -92,6 +93,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
 
     public SheetMusic(Context context) {
         super(context);
+        
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         bufferX = bufferY = scrollX = scrollY = 0;
@@ -102,12 +104,9 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         screenwidth = point.x;
         screenheight = point.y;
         
-        //screenwidth = activity.getWindowManager().getDefaultDisplay().getWidth();
-        //screenheight = activity.getWindowManager().getDefaultDisplay().getHeight();
-        //playerHeight = MidiPlayer.getPreferredSize(screenwidth, screenheight).y;
         scrollTimer = new Handler();
     }
-
+    
     /** Create a new SheetMusic View.
      * MidiFile is the parsed midi file to display.
      * SheetMusic Options are the menu options that were selected.
@@ -130,7 +129,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         SetColors(null, shade1, shade2);
         paint = new Paint();
         paint.setTextSize(10.0f);
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.GRAY);
         
         ArrayList<MidiTracks> tracks = file.ChangeMidiNotes(options);
         //SetNoteSize(options.largeNoteSize);
@@ -1473,6 +1472,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
 		int duration = songDuration / msecInterval;
                                     
         for (int i = 1; i <= duration; i++) {
+        	System.err.println("keepRunning: "+i);
             scrollTimer.postDelayed(flingScrollH, i * msecInterval);
         }    	
     }

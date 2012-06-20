@@ -1,26 +1,21 @@
 package com.voody.midisheet;
 
-//import android.os.*;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.*;
-//import android.app.Activity;
+
 import android.app.Activity;
-//import android.content.Context;
+import android.content.Context;
 //import android.content.res.Resources;
 import android.os.Bundle;
-
-//import java.io.IOException;
-//import java.io.InputStream;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 public class SheetMusicEntryPoint extends Activity {
     private SheetMusic sheet;    /* The sheet music */
-    //private LinearLayout layout; /* The layout */
     private MidiFiles midifile;   /* The midi file to play */
     private MidiOptions options; /* The options for sheet music and sound */
 
-    //private Resources resources;
-    //Context context;
+    Context context;
     
     public void onCreate() {
     	Bundle recvBundle = this.getIntent().getExtras();
@@ -34,15 +29,17 @@ public class SheetMusicEntryPoint extends Activity {
 
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
-    	
-        /*
-		ViewGroup parent = (ViewGroup) view.getParent();
+        
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.main, null); 
+        View view = layout.findViewById(R.id.sheet_music);
+        ViewGroup parent = (ViewGroup) view.getParent();
 		int index = parent.indexOfChild(view);
 		parent.removeView(view);
-		view = getLayoutInflater().inflate(sheet, parent, false);
-		parent.addView(view, index);
-		*/
-
+		//view = inflater.inflate(sheet, parent, false);
+		//parent.addView(view, index);
+		parent.addView(sheet, index);
+	
     	//layout = new LinearLayout(this);
         //layout.setOrientation(LinearLayout.VERTICAL);
         //layout.addView(sheet);       
@@ -51,5 +48,9 @@ public class SheetMusicEntryPoint extends Activity {
 
         sheet.callOnDraw();
         sheet.keepRunning();
+        
+        System.err.println("Reached finish in second activity.");
+        
+        finish();
     }
 }
