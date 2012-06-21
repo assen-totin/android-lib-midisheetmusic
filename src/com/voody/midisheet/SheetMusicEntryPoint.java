@@ -63,7 +63,7 @@ public class SheetMusicEntryPoint extends Activity {
         sheet.keepRunning();
         
         layout.removeView(sheet);
-        layout.requestLayout();
+        //layout.requestLayout();
         
         finish();
     }
