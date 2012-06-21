@@ -19,9 +19,7 @@ public class SheetMusicEntryPoint extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	
-    	setContentView(R.layout.main2);
-        
+    	    
     	Bundle recvBundle = this.getIntent().getExtras();
     	byte[] data = recvBundle.getByteArray("data");
     	
@@ -33,44 +31,14 @@ public class SheetMusicEntryPoint extends Activity {
 
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
-
-        //LayoutInflater inflater = getLayoutInflater();
-        //LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.main, null); 
-
-        
-        /* View view = layout.findViewById(R.id.sheet_music);
-        ViewGroup parent = (ViewGroup) view.getParent();
-		int index = parent.indexOfChild(view);
-		parent.removeView(view);
-		//view = inflater.inflate(sheet, parent, false);
-		//parent.addView(view, index);
-		parent.addView(sheet, index);
-	*/
-      /*  
+    
         LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);      
+        layout.setOrientation(LinearLayout.VERTICAL);
+               
         layout.addView(sheet);       
-        setContentView(layout);
-        layout.requestLayout();
-	*/
-        /*
-        LayoutInflater inflater = getLayoutInflater();
-        //RelativeLayout layout = (RelativeLayout)findViewById(R.id.relative_layout); 
-        RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.main, null);
-        layout.addView(sheet);
-        setContentView(layout);
-        */
-        
-       //layout.addView(sheet);
-        
-    	
-
-
-        
+        setContentView(layout);       	
+       
         sheet.callOnDraw();
         sheet.keepRunning();
-        
-        //layout.removeView(sheet);
-        //layout.requestLayout();
     }
 }
