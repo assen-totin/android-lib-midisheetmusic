@@ -1,8 +1,6 @@
 package com.voody.midisheet;
 
 import android.app.Activity;
-import android.content.Context;
-//import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -17,8 +15,6 @@ public class SheetMusicEntryPoint extends Activity {
     private SheetMusic sheet;    /* The sheet music */
     private MidiFiles midifile;   /* The midi file to play */
     private MidiOptions options; /* The options for sheet music and sound */
-
-    //Context context;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,9 +22,6 @@ public class SheetMusicEntryPoint extends Activity {
     	
     	setContentView(R.layout.main2);
         
-    	Handler timer = new Handler();
-        timer.postDelayed(flingScrollH, 10000); 
-
     	Bundle recvBundle = this.getIntent().getExtras();
     	byte[] data = recvBundle.getByteArray("data");
     	
@@ -41,7 +34,6 @@ public class SheetMusicEntryPoint extends Activity {
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
 
-        
         //LayoutInflater inflater = getLayoutInflater();
         //LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.main, null); 
 
@@ -81,10 +73,4 @@ public class SheetMusicEntryPoint extends Activity {
         //layout.removeView(sheet);
         //layout.requestLayout();
     }
-    
-    Runnable flingScrollH = new Runnable() {
-        public void run() {
-        	finish();
-        }
-    };
 }
