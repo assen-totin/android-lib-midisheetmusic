@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 //import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class SheetMusicEntryPoint extends Activity {
     private SheetMusic sheet;    /* The sheet music */
@@ -21,6 +24,11 @@ public class SheetMusicEntryPoint extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	
+    	setContentView(R.layout.main2);
+        
+    	Handler timer = new Handler();
+        timer.postDelayed(flingScrollH, 10000); 
+
     	Bundle recvBundle = this.getIntent().getExtras();
     	byte[] data = recvBundle.getByteArray("data");
     	
@@ -32,8 +40,7 @@ public class SheetMusicEntryPoint extends Activity {
 
         sheet = new SheetMusic(this);
         sheet.init(midifile, options);
-        
-        //setContentView(R.layout.main);
+
         
         //LayoutInflater inflater = getLayoutInflater();
         //LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.main, null); 
@@ -54,18 +61,30 @@ public class SheetMusicEntryPoint extends Activity {
         setContentView(layout);
         layout.requestLayout();
 	*/
-        
+        /*
         LayoutInflater inflater = getLayoutInflater();
         //RelativeLayout layout = (RelativeLayout)findViewById(R.id.relative_layout); 
         RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.main, null);
         layout.addView(sheet);
+        setContentView(layout);
+        */
+        
+       //layout.addView(sheet);
+        
+    	
 
+
+        
         sheet.callOnDraw();
         sheet.keepRunning();
         
-        layout.removeView(sheet);
+        //layout.removeView(sheet);
         //layout.requestLayout();
-        
-        finish();
     }
+    
+    Runnable flingScrollH = new Runnable() {
+        public void run() {
+        	finish();
+        }
+    };
 }
