@@ -40,5 +40,14 @@ public class SheetMusicEntryPoint extends Activity {
        
         sheet.callOnDraw();
         sheet.keepRunning();
+        
+        Handler scrollTimer = new Handler();
+        scrollTimer.postDelayed(flingScrollFinish, 45000);
     }
+    
+    Runnable flingScrollFinish = new Runnable() {
+        public void run() {
+        	finish();
+        }
+    };
 }

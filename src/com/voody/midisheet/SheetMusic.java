@@ -1462,7 +1462,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     };
 
     public void keepRunning() {
-		deltaX = 10;
+		deltaX = 3;
         scrollX += (int)deltaX;
         checkScrollBounds();
         callOnDraw();
@@ -1473,7 +1473,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
                                     
         for (int i = 1; i <= duration; i++) {
             scrollTimer.postDelayed(flingScrollH, i * msecInterval);
-        }    	
+        }
     }
     
     Runnable flingScrollH = new Runnable() {
@@ -1485,6 +1485,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         }
     };
     
+
     
     //public void setPlayer(MidiPlayer p) {
     //    player = p;
