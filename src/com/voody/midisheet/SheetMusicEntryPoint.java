@@ -55,8 +55,9 @@ public class SheetMusicEntryPoint extends Activity {
         layout.requestLayout();
 	*/
         
-        //RelativeLayout layout= new RelativeLayout(findViewById(R.id.relative_layout));
-        RelativeLayout layout = (RelativeLayout)findViewById(R.id.relative_layout); 
+        LayoutInflater inflater = getLayoutInflater();
+        //RelativeLayout layout = (RelativeLayout)findViewById(R.id.relative_layout); 
+        RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.main, null);
         layout.addView(sheet);
 
         sheet.callOnDraw();
