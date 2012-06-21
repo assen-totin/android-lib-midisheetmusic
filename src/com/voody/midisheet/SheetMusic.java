@@ -1472,7 +1472,6 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
 		int duration = songDuration / msecInterval;
                                     
         for (int i = 1; i <= duration; i++) {
-        	System.err.println("keepRunning: "+i);
             scrollTimer.postDelayed(flingScrollH, i * msecInterval);
         }    	
     }

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MidiSheetMusic</string>
+
+    <string name="hello">Mozart\'s Musical Dice Game</string>
+    <string name="app_name">MMDG</string>
+    <string name="dice_roll">ROLL THEM DICE!</string>
+    <string name="dice_rolled">Rolled the dice!</string>
 </resources>
