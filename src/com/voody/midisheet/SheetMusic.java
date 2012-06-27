@@ -1462,7 +1462,7 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     };
 
     public void keepRunning() {
-		deltaX = 3;
+		deltaX = 2;
         scrollX += (int)deltaX;
         checkScrollBounds();
         callOnDraw();
