@@ -13,6 +13,7 @@
 package com.voody.midisheet;
 
 import java.util.*;
+import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
@@ -91,7 +92,9 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
     private float    deltaY;          /** The change in y-pixel of the last motion */
     private Handler  scrollTimer;     /** Timer for doing 'fling' scrolling */
 
-    public SheetMusic(Context context) {
+    @SuppressWarnings("deprecation")
+	@TargetApi(13)
+	public SheetMusic(Context context) {
         super(context);
         
         SurfaceHolder holder = getHolder();
@@ -100,10 +103,19 @@ public class SheetMusic extends SurfaceView implements SurfaceHolder.Callback {
         
         Activity activity = (Activity)context;
         Point point = new Point();
-        activity.getWindowManager().getDefaultDisplay().getSize(point);
-        screenwidth = point.x;
-        screenheight = point.y;
+
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
         
+        if (currentApiVersion >= 13){
+                activity.getWindowManager().getDefaultDisplay().getSize(point);
+                screenwidth = point.x;
+                screenheight = point.y;
+        } 
+        else {
+                screenwidth = activity.getWindowManager().getDefaultDisplay().getWidth();
+                screenheight = activity.getWindowManager().getDefaultDisplay().getHeight();
+        }
+
         scrollTimer = new Handler();
     }
     
