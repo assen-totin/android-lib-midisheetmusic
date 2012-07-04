@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_name">Mozart</string>
     <string name="hello">Mozart\'s Musical Dice Game</string>
 	<string name="hello2">Music for the eternity</string>
     <string name="hello3">Press the button to enjoy one of the approx. 295,147,905,200,000,000,000 pieces of waltz. To listen to all of them you\'ll need about 561,544,720,700,000 years. As a comparison, our Universe is only 13,750,000,000 years old, which means you\'ll need about 40,000 times more time than has elapsed since the Big Bang: truly a music for the eternity!</string> 
-    <string name="app_name">MMDG</string>
     <string name="dice_roll">ROLL THE DICE!</string>
 </resources>

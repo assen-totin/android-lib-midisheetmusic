@@ -12,7 +12,7 @@
     android:gravity="center_horizontal"
     android:text="@string/hello"
     android:textColor="#000000"
-    android:textSize="12pt" 
+    android:textSize="14pt" 
     />
 
 <TextView
@@ -22,7 +22,7 @@
     android:gravity="center_horizontal"
     android:text="@string/hello2"
     android:textColor="#000000"
-    android:textSize="10pt" 
+    android:textSize="12pt" 
     />
 
 <TextView
@@ -32,7 +32,7 @@
     android:gravity="center_horizontal"
     android:text="@string/hello3"
     android:textColor="#000000"
-    android:textSize="8pt" 
+    android:textSize="10pt" 
     />
 
 <Button
